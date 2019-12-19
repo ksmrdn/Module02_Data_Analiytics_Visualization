@@ -1,0 +1,11 @@
+1. Biodata Data (CV) HTML => Server Flask
+- Home
+- About
+- Education
+- Skills
+- Experiences
+
+2. DigiDB => flask response:
+- /table => HTML tabel data digidb
+- /json => JSON data digimon
+

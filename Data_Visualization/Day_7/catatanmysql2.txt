@@ -1,0 +1,430 @@
+MariaDB [warehouse_rk]> create table tableA(
+    -> id_user int,
+    -> username varchar(255),
+    -> primary key(id_user)
+    -> ,
+    -> id_bagian int);
+Query OK, 0 rows affected (0.073 sec)
+
+MariaDB [warehouse_rk]> describe tableA;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| id_user   | int(11)      | NO   | PRI | NULL    |       |
+| username  | varchar(255) | YES  |     | NULL    |       |
+| id_bagian | int(11)      | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+3 rows in set (1.704 sec)
+
+MariaDB [warehouse_rk]> create table tableB(
+    -> id_bagian int,
+    -> namaBagian varchar(255)
+    -> );
+Query OK, 0 rows affected (0.070 sec)
+
+MariaDB [warehouse_rk]> describe tableB;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| id_bagian  | int(11)      | YES  |     | NULL    |       |
+| namaBagian | varchar(255) | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+2 rows in set (0.013 sec)
+
+MariaDB [warehouse_rk]> insert into tableA values
+    -> (1, 'Akmal', 1),
+    -> (2, 'Baron', 3),
+    ->
+    -> (3, 'Cristie',2),
+    -> (4, 'Dunn',4),
+    -> (5,'Euler',1),
+    -> (6,'Fasem',2);
+Query OK, 6 rows affected (0.009 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+MariaDB [warehouse_rk]> select * from tableA
+    -> ;
++---------+----------+-----------+
+| id_user | username | id_bagian |
++---------+----------+-----------+
+|       1 | Akmal    |         1 |
+|       2 | Baron    |         3 |
+|       3 | Cristie  |         2 |
+|       4 | Dunn     |         4 |
+|       5 | Euler    |         1 |
+|       6 | Fasem    |         2 |
++---------+----------+-----------+
+6 rows in set (0.000 sec)
+
+MariaDB [warehouse_rk]> insert into tableB values
+    -> (1, 'HRD'),
+    -> (2, 'Marketing'),
+    -> (3, 'Desain'),
+    -> (4, 'Engineer');
+Query OK, 4 rows affected (0.008 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+MariaDB [warehouse_rk]> select * from tableB;
++-----------+------------+
+| id_bagian | namaBagian |
++-----------+------------+
+|         1 | HRD        |
+|         2 | Marketing  |
+|         3 | Desain     |
+|         4 | Engineer   |
++-----------+------------+
+4 rows in set (0.000 sec)
+
+MariaDB [warehouse_rk]> select username, namaBagian from
+    -> tableA inner join tableB
+    -> on tableA.id_bagian = tableB.id_bagian;
++----------+------------+
+| username | namaBagian |
++----------+------------+
+| Akmal    | HRD        |
+| Baron    | Desain     |
+| Cristie  | Marketing  |
+| Dunn     | Engineer   |
+| Euler    | HRD        |
+| Fasem    | Marketing  |
++----------+------------+
+6 rows in set (0.014 sec)
+
+MariaDB [warehouse_rk]> select username, namaBagian
+    -> from tableA
+    -> left join TableB
+    -> right join TableB
+    -> using (id_bagian);
+ERROR 1066 (42000): Not unique table/alias: 'TableB'
+MariaDB [warehouse_rk]> select username, namaBagian
+    -> from TableA
+    -> left outer
+    -> join TableB
+    -> using (id_bagian);
++----------+------------+
+| username | namaBagian |
++----------+------------+
+| Akmal    | HRD        |
+| Euler    | HRD        |
+| Cristie  | Marketing  |
+| Fasem    | Marketing  |
+| Baron    | Desain     |
+| Dunn     | Engineer   |
+| Lolo     | NULL       |
+| Mona     | NULL       |
++----------+------------+
+8 rows in set (0.000 sec)
+
+MariaDB [warehouse_rk]> select username, namaBagian
+    -> from tableA
+    -> left join tableB
+    -> using (id_bagian)
+    -> union
+    -> select username, namaBagian
+    -> from tableA
+    -> right join tableB
+    -> using (id_bagian)
+    -> ;
++----------+------------+
+| username | namaBagian |
++----------+------------+
+| Akmal    | HRD        |
+| Euler    | HRD        |
+| Cristie  | Marketing  |
+| Fasem    | Marketing  |
+| Baron    | Desain     |
+| Dunn     | Engineer   |
+| Lolo     | NULL       |
+| Mona     | NULL       |
+| NULL     | Finance    |
++----------+------------+
+9 rows in set (0.005 sec)
+
+MariaDB [warehouse_rk]> select username, namaBagian
+    -> from tableA
+    -> left join tableB
+    -> using (id_bagian)
+    -> where tableB.id_bagian is null
+    -> union
+    -> select username, namaBagian
+    -> from tableA
+    -> right join tableB
+    -> using (id_bagian)
+    -> where tableA.id_bagian is null;
++----------+------------+
+| username | namaBagian |
++----------+------------+
+| Lolo     | NULL       |
+| Mona     | NULL       |
+| NULL     | Finance    |
++----------+------------+
+3 rows in set (0.001 sec)
+
+select city.name, country.name from
+-> city inner join country
+-> on city.countrycode= country.code
+-> where country.code = 'idn';
+
+'''
+kolom code yang ada di tabel country
+'''
+
+MariaDB [world]> create view city_IDN as
+    -> select city.name as kota, country.name as negara from
+    -> city inner join country
+    -> on city.countrycode= country.code
+    -> where country.code = 'idn';
+Query OK, 0 rows affected (0.006 sec)
+
+MariaDB [world]> select * from city_IDN;
++------------------+-----------+
+| kota             | negara    |
++------------------+-----------+
+| Jakarta          | Indonesia |
+| Surabaya         | Indonesia |
+| Bandung          | Indonesia |
+| Medan            | Indonesia |
+| Palembang        | Indonesia |
+| Tangerang        | Indonesia |
+| Semarang         | Indonesia |
+| Ujung Pandang    | Indonesia |
+| Malang           | Indonesia |
+| Bandar Lampung   | Indonesia |
+| Bekasi           | Indonesia |
+| Padang           | Indonesia |
+| Surakarta        | Indonesia |
+| Banjarmasin      | Indonesia |
+| Pekan Baru       | Indonesia |
+| Denpasar         | Indonesia |
+| Yogyakarta       | Indonesia |
+| Pontianak        | Indonesia |
+| Samarinda        | Indonesia |
+| Jambi            | Indonesia |
+| Depok            | Indonesia |
+| Cimahi           | Indonesia |
+| Balikpapan       | Indonesia |
+| Manado           | Indonesia |
+| Mataram          | Indonesia |
+| Pekalongan       | Indonesia |
+| Tegal            | Indonesia |
+| Bogor            | Indonesia |
+| Ciputat          | Indonesia |
+| Pondokgede       | Indonesia |
+| Cirebon          | Indonesia |
+| Kediri           | Indonesia |
+| Ambon            | Indonesia |
+| Jember           | Indonesia |
+| Cilacap          | Indonesia |
+| Cimanggis        | Indonesia |
+| Pematang Siantar | Indonesia |
+| Purwokerto       | Indonesia |
+| Ciomas           | Indonesia |
+| Tasikmalaya      | Indonesia |
+| Madiun           | Indonesia |
+| Bengkulu         | Indonesia |
+| Karawang         | Indonesia |
+| Banda Aceh       | Indonesia |
+| Palu             | Indonesia |
+| Pasuruan         | Indonesia |
+| Kupang           | Indonesia |
+| Tebing Tinggi    | Indonesia |
+| Percut Sei Tuan  | Indonesia |
+| Binjai           | Indonesia |
+| Sukabumi         | Indonesia |
+| Waru             | Indonesia |
+| Pangkal Pinang   | Indonesia |
+| Magelang         | Indonesia |
+| Blitar           | Indonesia |
+| Serang           | Indonesia |
+| Probolinggo      | Indonesia |
+| Cilegon          | Indonesia |
+| Cianjur          | Indonesia |
+| Ciparay          | Indonesia |
+| Lhokseumawe      | Indonesia |
+| Taman            | Indonesia |
+| Depok            | Indonesia |
+| Citeureup        | Indonesia |
+| Pemalang         | Indonesia |
+| Klaten           | Indonesia |
+| Salatiga         | Indonesia |
+| Cibinong         | Indonesia |
+| Palangka Raya    | Indonesia |
+| Mojokerto        | Indonesia |
+| Purwakarta       | Indonesia |
+| Garut            | Indonesia |
+| Kudus            | Indonesia |
+| Kendari          | Indonesia |
+| Jaya Pura        | Indonesia |
+| Gorontalo        | Indonesia |
+| Majalaya         | Indonesia |
+| Pondok Aren      | Indonesia |
+| Jombang          | Indonesia |
+| Sunggal          | Indonesia |
+| Batam            | Indonesia |
+| Padang Sidempuan | Indonesia |
+| Sawangan         | Indonesia |
+| Banyuwangi       | Indonesia |
+| Tanjung Pinang   | Indonesia |
++------------------+-----------+
+85 rows in set (0.007 sec)
+
+MariaDB [world]> alter view city_IDN as
+    -> select id, city.name as kota, country.name as negara from
+    -> city inner join country
+    -> on city.countrycode= country.code
+    -> where country.code = 'idn';
+Query OK, 0 rows affected (0.006 sec)
+
+MariaDB [world]> describe city_IDN;
++--------+----------+------+-----+---------+-------+
+| Field  | Type     | Null | Key | Default | Extra |
++--------+----------+------+-----+---------+-------+
+| id     | int(11)  | NO   |     | 0       |       |
+| kota   | char(35) | NO   |     |         |       |
+| negara | char(52) | NO   |     |         |       |
++--------+----------+------+-----+---------+-------+
+3 rows in set (0.015 sec)
+
+MariaDB [world]> select * from city_IDN limit 10;
++-----+----------------+-----------+
+| id  | kota           | negara    |
++-----+----------------+-----------+
+| 939 | Jakarta        | Indonesia |
+| 940 | Surabaya       | Indonesia |
+| 941 | Bandung        | Indonesia |
+| 942 | Medan          | Indonesia |
+| 943 | Palembang      | Indonesia |
+| 944 | Tangerang      | Indonesia |
+| 945 | Semarang       | Indonesia |
+| 946 | Ujung Pandang  | Indonesia |
+| 947 | Malang         | Indonesia |
+| 948 | Bandar Lampung | Indonesia |
++-----+----------------+-----------+
+10 rows in set (0.001 sec)
+
+MariaDB [world]> select * from city where countrycode = 'idn' order by population desc limit 10;
++-----+----------------+-------------+------------------+------------+
+| ID  | Name           | CountryCode | District         | Population |
++-----+----------------+-------------+------------------+------------+
+| 939 | Jakarta        | IDN         | Jakarta Raya     |    9604900 |
+| 940 | Surabaya       | IDN         | East Java        |    2663820 |
+| 941 | Bandung        | IDN         | West Java        |    2429000 |
+| 942 | Medan          | IDN         | Sumatera Utara   |    1843919 |
+| 943 | Palembang      | IDN         | Sumatera Selatan |    1222764 |
+| 944 | Tangerang      | IDN         | West Java        |    1198300 |
+| 945 | Semarang       | IDN         | Central Java     |    1104405 |
+| 946 | Ujung Pandang  | IDN         | Sulawesi Selatan |    1060257 |
+| 947 | Malang         | IDN         | East Java        |     716862 |
+| 948 | Bandar Lampung | IDN         | Lampung          |     680332 |
++-----+----------------+-------------+------------------+------------+
+10 rows in set (0.000 sec)
+
+MariaDB [world]> use warehouse_rk;
+Database changed
+MariaDB [warehouse_rk]> alter table tableA;
+Query OK, 0 rows affected (0.000 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [warehouse_rk]> drop column id_bagian;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'column id_bagian' at line 1
+MariaDB [warehouse_rk]> alter table tableA
+    -> drop column id_bagian;
+Query OK, 0 rows affected (0.031 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [warehouse_rk]> select * from tableA;
++---------+----------+
+| id_user | username |
++---------+----------+
+|       1 | Akmal    |
+|       2 | Baron    |
+|       3 | Cristie  |
+|       4 | Dunn     |
+|       5 | Euler    |
+|       6 | Fasem    |
+|       7 | Lolo     |
+|       8 | Mona     |
++---------+----------+
+8 rows in set (0.002 sec)
+
+MariaDB [warehouse_rk]> select * from tableB;
++-----------+------------+
+| id_bagian | namaBagian |
++-----------+------------+
+|         1 | HRD        |
+|         2 | Marketing  |
+|         3 | Desain     |
+|         4 | Engineer   |
+|         5 | Finance    |
++-----------+------------+
+5 rows in set (0.005 sec)
+
+MariaDB [warehouse_rk]> create table tableAB(
+    -> user_id int,
+    -> bagian_id int
+    -> );
+Query OK, 0 rows affected (0.060 sec)
+
+MariaDB [warehouse_rk]> describe tableAB;
++-----------+---------+------+-----+---------+-------+
+| Field     | Type    | Null | Key | Default | Extra |
++-----------+---------+------+-----+---------+-------+
+| user_id   | int(11) | YES  |     | NULL    |       |
+| bagian_id | int(11) | YES  |     | NULL    |       |
++-----------+---------+------+-----+---------+-------+
+2 rows in set (0.017 sec)
+
+MariaDB [warehouse_rk]> insert into tableAB values
+    -> (1,1),
+    -> (2,2),
+    -> (3,2),
+    -> (4,2),
+    -> (5,3),
+    -> (6,4);
+Query OK, 6 rows affected (0.007 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+MariaDB [warehouse_rk]> select * from tableAB;
++---------+-----------+
+| user_id | bagian_id |
++---------+-----------+
+|       1 |         1 |
+|       2 |         2 |
+|       3 |         2 |
+|       4 |         2 |
+|       5 |         3 |
+|       6 |         4 |
++---------+-----------+
+6 rows in set (0.000 sec)
+
+MariaDB [warehouse_rk]> select * from
+    -> tableA inner join tableAB
+    -> on tableA.id_user = tableAB.user_id
+    -> inner join tableB
+    -> on tableB.id_bagian = tableAB.bagian_id;
++---------+----------+---------+-----------+-----------+------------+
+| id_user | username | user_id | bagian_id | id_bagian | namaBagian |
++---------+----------+---------+-----------+-----------+------------+
+|       1 | Akmal    |       1 |         1 |         1 | HRD        |
+|       2 | Baron    |       2 |         2 |         2 | Marketing  |
+|       3 | Cristie  |       3 |         2 |         2 | Marketing  |
+|       4 | Dunn     |       4 |         2 |         2 | Marketing  |
+|       5 | Euler    |       5 |         3 |         3 | Desain     |
+|       6 | Fasem    |       6 |         4 |         4 | Engineer   |
++---------+----------+---------+-----------+-----------+------------+
+6 rows in set (0.001 sec)
+
+MariaDB [warehouse_rk]> select username, namabagian from
+    -> tableA A, tableB B, tableAB AB
+    -> where A.id_user = AB.user_id and B.id_bagian = AB.bagian_id;
++----------+------------+
+| username | namabagian |
++----------+------------+
+| Akmal    | HRD        |
+| Baron    | Marketing  |
+| Cristie  | Marketing  |
+| Dunn     | Marketing  |
+| Euler    | Desain     |
+| Fasem    | Engineer   |
++----------+------------+
+6 rows in set (0.001 sec)

@@ -1,0 +1,13 @@
+Open terminal
+> mongod
+
+open mongo
+> mongo
+
+choose database
+> use resto
+
+show collections
+> db.resto.find()
+
+

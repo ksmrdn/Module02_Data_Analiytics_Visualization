@@ -1,0 +1,51 @@
+Server activated
+$ mongod
+
+Open terminal
+$ mongo
+
+Create database 
+> use kampus
+
+Creat user
+> db.creatUser({
+	user: 'Andi',
+	pwd : 'anditopsecret',
+	roles: ['dbAdmin']
+	})
+> db.createUser({
+	user: 'Budi'
+	pwd : 'buditopsecret'
+	roles: ['readWrite']
+	})
+
+Creat collection
+> db.createCollection('Dosen')
+> db.Dosen.insert(
+... {nama:"Caca",
+... usia:28,
+... asal:"Jakarta",
+... bidang:"Fisika Astrologi",
+... titel:"S2",
+... status:"Honorer",
+... nip:123,
+... matkul:["Metrologi","Kosmologi","Kalkulus"]})
+> db.Dosen.insert(
+...{nama:"Dedi",
+...usia:29,
+...asal:"Yogyakarta",
+...bidang:"Fisika Terapan",
+...titel:"S3",
+...status:"PNS",
+...nip:456,
+...matkul:["Instrumentasi","Elektronika","Fisika Dasar"]}
+> db.Mahasiswa.insert(
+... {nama:"Faza",
+... usia:19,
+... asal:"Aceh",
+... prodi:"Fisika",
+... angkatan:2017,
+... nim:123}
+... )
+> db.Mahasiswa.insert({nama:"Gilang", usia:20, asal:"Semarang", prodi:"Fisika", angkatan:2017, nim:456})
+> db.Mahasiswa.insert({nama:"Hanafi", usia:19, asal:"Makassar", prodi:"Fisika", angkatan:2017, nim:789})

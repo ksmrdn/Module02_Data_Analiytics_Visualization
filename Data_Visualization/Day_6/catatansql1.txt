@@ -1,0 +1,415 @@
+Day 5 - MySQL
+mysql -u ksmrdn -p(*password)
+create Warehouse_RK
+use Warehouse_RK
+create table karyawan
+
+D:\Program Files\xampp\mysql\bin>mysql -u ksmrdn -p
+Enter password: *******
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 8
+Server version: 10.4.8-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| kushop             |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+6 rows in set (0.096 sec)
+
+MariaDB [(none)]> create Warehouse_RK
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Warehouse_RK' at line 1
+MariaDB [(none)]> create warehouse;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'warehouse' at line 1
+MariaDB [(none)]> create Gudang;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Gudang' at line 1
+MariaDB [(none)]> create database Warehouse_RK;
+Query OK, 1 row affected (0.009 sec)
+
+MariaDB [(none)]> use Warehouse_RK;
+Database changed
+MariaDB [Warehouse_RK]> create table karyawan(
+    -> id_kar bigint not null auto_increment
+    -> );
+ERROR 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
+MariaDB [Warehouse_RK]> create table karyawan(
+    -> id_kar bigint not null auto_increment,
+    -> name_kar varchar(20) default "Karyawan Teladan",
+    -> sex_kar set('pria', 'wanita'),
+    -> sal_kar int default 2500000,
+    -> created_at timestamp default current_timestamp,
+    -> primary key(id_kar)
+    -> );
+Query OK, 0 rows affected (0.126 sec)
+
+MariaDB [Warehouse_RK]> describe warehouse_RK;
+ERROR 1146 (42S02): Table 'warehouse_rk.warehouse_rk' doesn't exist
+MariaDB [Warehouse_RK]> describe Warehouse_RK;
+ERROR 1146 (42S02): Table 'warehouse_rk.warehouse_rk' doesn't exist
+MariaDB [Warehouse_RK]> describe karyawan;
++------------+----------------------+------+-----+---------------------+----------------+
+| Field      | Type                 | Null | Key | Default             | Extra          |
++------------+----------------------+------+-----+---------------------+----------------+
+| id_kar     | bigint(20)           | NO   | PRI | NULL                | auto_increment |
+| name_kar   | varchar(20)          | YES  |     | Karyawan Teladan    |                |
+| sex_kar    | set('pria','wanita') | YES  |     | NULL                |                |
+| sal_kar    | int(11)              | YES  |     | 2500000             |                |
+| created_at | timestamp            | NO   |     | current_timestamp() |                |
++------------+----------------------+------+-----+---------------------+----------------+
+5 rows in set (0.024 sec)
+
+MariaDB [Warehouse_RK]> insert into karyawan (name_kar, sex_kar) values ('Adny Barakbah','pria');
+Query OK, 1 row affected (0.130 sec)
+
+MariaDB [Warehouse_RK]> select *from karyawan;
++--------+---------------+---------+---------+---------------------+
+| id_kar | name_kar      | sex_kar | sal_kar | created_at          |
++--------+---------------+---------+---------+---------------------+
+|      1 | Adny Barakbah | pria    | 2500000 | 2019-11-21 09:35:07 |
++--------+---------------+---------+---------+---------------------+
+1 row in set (0.005 sec)
+
+MariaDB [Warehouse_RK]> insert into karyawan (nama, sex) values
+    -> ('Nadia Ningtias', 'wanita'),
+    -> ('Yuan Xheng', 'pria');
+ERROR 1054 (42S22): Unknown column 'nama' in 'field list'
+MariaDB [Warehouse_RK]> insert into karyawan (name_kar, sex_kar) values
+    -> ('Nadia Ningtias', 'wanita'),
+    -> ('Yuan Xheng', 'pria');
+Query OK, 2 rows affected (0.008 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [Warehouse_RK]> select *from karyawan;
++--------+----------------+---------+---------+---------------------+
+| id_kar | name_kar       | sex_kar | sal_kar | created_at          |
++--------+----------------+---------+---------+---------------------+
+|      1 | Adny Barakbah  | pria    | 2500000 | 2019-11-21 09:35:07 |
+|      2 | Nadia Ningtias | wanita  | 2500000 | 2019-11-21 09:38:42 |
+|      3 | Yuan Xheng     | pria    | 2500000 | 2019-11-21 09:38:42 |
++--------+----------------+---------+---------+---------------------+
+3 rows in set (0.000 sec)
+
+MariaDB [Warehouse_RK]> select *from karyawan limit 1,1;
++--------+----------------+---------+---------+---------------------+
+| id_kar | name_kar       | sex_kar | sal_kar | created_at          |
++--------+----------------+---------+---------+---------------------+
+|      2 | Nadia Ningtias | wanita  | 2500000 | 2019-11-21 09:38:42 |
++--------+----------------+---------+---------+---------------------+
+1 row in set (0.001 sec)
+
+MariaDB [Warehouse_RK]> select * from karyawan;
++--------+----------------+---------+---------+---------------------+
+| id_kar | name_kar       | sex_kar | sal_kar | created_at          |
++--------+----------------+---------+---------+---------------------+
+|      1 | Adny Barakbah  | pria    | 2500000 | 2019-11-21 09:35:07 |
+|      2 | Nadia Ningtias | wanita  | 2500000 | 2019-11-21 09:38:42 |
+|      3 | Yuan Xheng     | pria    | 2500000 | 2019-11-21 09:38:42 |
++--------+----------------+---------+---------+---------------------+
+3 rows in set (0.000 sec)
+
+MariaDB [Warehouse_RK]> select name_kar, sal_kar, 0.25*sal_kar as tax_kar from karyawan;
++----------------+---------+-----------+
+| name_kar       | sal_kar | tax_kar   |
++----------------+---------+-----------+
+| Adny Barakbah  | 2500000 | 625000.00 |
+| Nadia Ningtias | 2500000 | 625000.00 |
+| Yuan Xheng     | 2500000 | 625000.00 |
++----------------+---------+-----------+
+3 rows in set (0.008 sec)
+
+MariaDB [Warehouse_RK]> insert into karyawan (name_kar, sex_kar, sal_kar) values
+    -> ('Bonita Bonek', 'wanita', 4000000);
+Query OK, 1 row affected (0.011 sec)
+
+MariaDB [Warehouse_RK]> select *from karyawan order by nama, created_at;
+ERROR 1054 (42S22): Unknown column 'nama' in 'order clause'
+MariaDB [Warehouse_RK]> select *from karyawan order by name, created_at;
+ERROR 1054 (42S22): Unknown column 'name' in 'order clause'
+MariaDB [Warehouse_RK]> select *from karyawan order by name_kar, created_at;
++--------+----------------+---------+---------+---------------------+
+| id_kar | name_kar       | sex_kar | sal_kar | created_at          |
++--------+----------------+---------+---------+---------------------+
+|      1 | Adny Barakbah  | pria    | 2500000 | 2019-11-21 09:35:07 |
+|      4 | Bonita Bonek   | wanita  | 4000000 | 2019-11-21 09:51:24 |
+|      2 | Nadia Ningtias | wanita  | 2500000 | 2019-11-21 09:38:42 |
+|      3 | Yuan Xheng     | pria    | 2500000 | 2019-11-21 09:38:42 |
++--------+----------------+---------+---------+---------------------+
+4 rows in set (0.002 sec)
+
+MariaDB [Warehouse_RK]> select *from karyawan order by name_kar desc, created_at;
++--------+----------------+---------+---------+---------------------+
+| id_kar | name_kar       | sex_kar | sal_kar | created_at          |
++--------+----------------+---------+---------+---------------------+
+|      3 | Yuan Xheng     | pria    | 2500000 | 2019-11-21 09:38:42 |
+|      2 | Nadia Ningtias | wanita  | 2500000 | 2019-11-21 09:38:42 |
+|      4 | Bonita Bonek   | wanita  | 4000000 | 2019-11-21 09:51:24 |
+|      1 | Adny Barakbah  | pria    | 2500000 | 2019-11-21 09:35:07 |
++--------+----------------+---------+---------+---------------------+
+4 rows in set (0.001 sec)
+
+MariaDB [warehouse_rk]> select * from karyawan order by sex_kar;
++--------+----------------+---------+---------+---------------------+
+| id_kar | name_kar       | sex_kar | sal_kar | created_at          |
++--------+----------------+---------+---------+---------------------+
+|      1 | Adny Barakbah  | pria    | 2500000 | 2019-11-21 09:35:07 |
+|      3 | Yuan Xheng     | pria    | 2500000 | 2019-11-21 09:38:42 |
+|      2 | Nadia Ningtias | wanita  | 2500000 | 2019-11-21 09:38:42 |
+|      4 | Bonita Bonek   | wanita  | 4000000 | 2019-11-21 09:51:24 |
++--------+----------------+---------+---------+---------------------+
+4 rows in set (0.000 sec)
+
+MariaDB [warehouse_rk]> select * from karyawan where sal_kar > 3000000
+    -> ;
++--------+--------------+---------+---------+---------------------+
+| id_kar | name_kar     | sex_kar | sal_kar | created_at          |
++--------+--------------+---------+---------+---------------------+
+|      4 | Bonita Bonek | wanita  | 4000000 | 2019-11-21 09:51:24 |
++--------+--------------+---------+---------+---------------------+
+1 row in set (0.011 sec)
+
+MariaDB [warehouse_rk]> select * from karyawan where sal_kar between 2500000 and 4000000;
++--------+----------------+---------+---------+---------------------+
+| id_kar | name_kar       | sex_kar | sal_kar | created_at          |
++--------+----------------+---------+---------+---------------------+
+|      1 | Adny Barakbah  | pria    | 2500000 | 2019-11-21 09:35:07 |
+|      2 | Nadia Ningtias | wanita  | 2500000 | 2019-11-21 09:38:42 |
+|      3 | Yuan Xheng     | pria    | 2500000 | 2019-11-21 09:38:42 |
+|      4 | Bonita Bonek   | wanita  | 4000000 | 2019-11-21 09:51:24 |
++--------+----------------+---------+---------+---------------------+
+4 rows in set (0.000 sec)
+
+MariaDB [warehouse_rk]> select * from karyawan where name_kar like '%x';
+Empty set (0.001 sec)
+
+MariaDB [warehouse_rk]> select * from karyawan where name_kar like '%X';
+Empty set (0.000 sec)
+
+MariaDB [warehouse_rk]> select * from karyawan where name_kar like '%y';
+Empty set (0.000 sec)
+
+MariaDB [warehouse_rk]> select * from karyawan where name_kar like '%x%';
++--------+------------+---------+---------+---------------------+
+| id_kar | name_kar   | sex_kar | sal_kar | created_at          |
++--------+------------+---------+---------+---------------------+
+|      3 | Yuan Xheng | pria    | 2500000 | 2019-11-21 09:38:42 |
++--------+------------+---------+---------+---------------------+
+1 row in set (0.000 sec)
+
+MariaDB [warehouse_rk]> select * from karyawan where name_kar like 'y%';
++--------+------------+---------+---------+---------------------+
+| id_kar | name_kar   | sex_kar | sal_kar | created_at          |
++--------+------------+---------+---------+---------------------+
+|      3 | Yuan Xheng | pria    | 2500000 | 2019-11-21 09:38:42 |
++--------+------------+---------+---------+---------------------+
+1 row in set (0.000 sec)
+
+MariaDB [warehouse_rk]> select count(*) from karyawan where sex_kar = 'pria';
++----------+
+| count(*) |
++----------+
+|        2 |
++----------+
+1 row in set (0.013 sec)
+
+MariaDB [warehouse_rk]> select * from karyawan where sal_kar <(
+    -> select avg(sal_kar) from karyawan);
++--------+----------------+---------+---------+---------------------+
+| id_kar | name_kar       | sex_kar | sal_kar | created_at          |
++--------+----------------+---------+---------+---------------------+
+|      1 | Adny Barakbah  | pria    | 2500000 | 2019-11-21 09:35:07 |
+|      2 | Nadia Ningtias | wanita  | 2500000 | 2019-11-21 09:38:42 |
+|      3 | Yuan Xheng     | pria    | 2500000 | 2019-11-21 09:38:42 |
++--------+----------------+---------+---------+---------------------+
+3 rows in set (0.003 sec)
+
+MariaDB [warehouse_rk]> select * from karyawan where sal_kar <(
+    -> select avg(sal_kar) from karyawan);
++--------+----------------+---------+---------+---------------------+
+| id_kar | name_kar       | sex_kar | sal_kar | created_at          |
++--------+----------------+---------+---------+---------------------+
+|      1 | Adny Barakbah  | pria    | 2500000 | 2019-11-21 09:35:07 |
+|      2 | Nadia Ningtias | wanita  | 2500000 | 2019-11-21 09:38:42 |
+|      3 | Yuan Xheng     | pria    | 2500000 | 2019-11-21 09:38:42 |
++--------+----------------+---------+---------+---------------------+
+3 rows in set (0.000 sec)
+
+MariaDB [warehouse_rk]> select avg(sal_kar) from karyawan where sal_kar <(
+    -> select avg(sal_kar) from karyawan);
++--------------+
+| avg(sal_kar) |
++--------------+
+| 2500000.0000 |
++--------------+
+1 row in set (0.001 sec)
+
+MariaDB [warehouse_rk]> select * from karyawan where sal_kar <(
+    -> select avg(sal_kar) from karyawan);
++--------+----------------+---------+---------+---------------------+
+| id_kar | name_kar       | sex_kar | sal_kar | created_at          |
++--------+----------------+---------+---------+---------------------+
+|      1 | Adny Barakbah  | pria    | 2500000 | 2019-11-21 09:35:07 |
+|      2 | Nadia Ningtias | wanita  | 2500000 | 2019-11-21 09:38:42 |
+|      3 | Yuan Xheng     | pria    | 2500000 | 2019-11-21 09:38:42 |
++--------+----------------+---------+---------+---------------------+
+3 rows in set (0.003 sec)
+
+MariaDB [warehouse_rk]> select * from karyawan where sal_kar <(
+    -> select avg(sal_kar) from karyawan);
++--------+----------------+---------+---------+---------------------+
+| id_kar | name_kar       | sex_kar | sal_kar | created_at          |
++--------+----------------+---------+---------+---------------------+
+|      1 | Adny Barakbah  | pria    | 2500000 | 2019-11-21 09:35:07 |
+|      2 | Nadia Ningtias | wanita  | 2500000 | 2019-11-21 09:38:42 |
+|      3 | Yuan Xheng     | pria    | 2500000 | 2019-11-21 09:38:42 |
++--------+----------------+---------+---------+---------------------+
+3 rows in set (0.000 sec)
+
+MariaDB [warehouse_rk]> select avg(sal_kar) from karyawan where sal_kar <(
+    -> select avg(sal_kar) from karyawan);
++--------------+
+| avg(sal_kar) |
++--------------+
+| 2500000.0000 |
++--------------+
+1 row in set (0.001 sec)
+
+MariaDB [warehouse_rk]> select * from karyawan where sal_kar <(
+    -> select avg(sal_kar) from karyawan);
++--------+----------------+---------+---------+---------------------+
+| id_kar | name_kar       | sex_kar | sal_kar | created_at          |
++--------+----------------+---------+---------+---------------------+
+|      1 | Adny Barakbah  | pria    | 2500000 | 2019-11-21 09:35:07 |
+|      2 | Nadia Ningtias | wanita  | 2500000 | 2019-11-21 09:38:42 |
+|      3 | Yuan Xheng     | pria    | 2500000 | 2019-11-21 09:38:42 |
++--------+----------------+---------+---------+---------------------+
+3 rows in set (0.003 sec)
+
+MariaDB [warehouse_rk]> select * from karyawan where sal_kar <(
+    -> select avg(sal_kar) from karyawan);
++--------+----------------+---------+---------+---------------------+
+| id_kar | name_kar       | sex_kar | sal_kar | created_at          |
++--------+----------------+---------+---------+---------------------+
+|      1 | Adny Barakbah  | pria    | 2500000 | 2019-11-21 09:35:07 |
+|      2 | Nadia Ningtias | wanita  | 2500000 | 2019-11-21 09:38:42 |
+|      3 | Yuan Xheng     | pria    | 2500000 | 2019-11-21 09:38:42 |
++--------+----------------+---------+---------+---------------------+
+3 rows in set (0.000 sec)
+
+MariaDB [warehouse_rk]> select avg(sal_kar) from karyawan where sal_kar <(
+    -> select avg(sal_kar) from karyawan);
++--------------+
+| avg(sal_kar) |
++--------------+
+| 2500000.0000 |
++--------------+
+1 row in set (0.001 sec)
+
+MariaDB [warehouse_rk]> select * from karyawan where sal_kar <(
+    -> select avg(sal_kar) from karyawan);
++--------+----------------+---------+---------+---------------------+
+| id_kar | name_kar       | sex_kar | sal_kar | created_at          |
++--------+----------------+---------+---------+---------------------+
+|      1 | Adny Barakbah  | pria    | 2500000 | 2019-11-21 09:35:07 |
+|      2 | Nadia Ningtias | wanita  | 2500000 | 2019-11-21 09:38:42 |
+|      3 | Yuan Xheng     | pria    | 2500000 | 2019-11-21 09:38:42 |
++--------+----------------+---------+---------+---------------------+
+3 rows in set (0.003 sec)
+
+MariaDB [warehouse_rk]> select * from karyawan where sal_kar <(
+    -> select avg(sal_kar) from karyawan);
++--------+----------------+---------+---------+---------------------+
+| id_kar | name_kar       | sex_kar | sal_kar | created_at          |
++--------+----------------+---------+---------+---------------------+
+|      1 | Adny Barakbah  | pria    | 2500000 | 2019-11-21 09:35:07 |
+|      2 | Nadia Ningtias | wanita  | 2500000 | 2019-11-21 09:38:42 |
+|      3 | Yuan Xheng     | pria    | 2500000 | 2019-11-21 09:38:42 |
++--------+----------------+---------+---------+---------------------+
+3 rows in set (0.003 sec)
+
+MariaDB [warehouse_rk]> select * from karyawan where sal_kar <(
+    -> select avg(sal_kar) from karyawan);
++--------+----------------+---------+---------+---------------------+
+| id_kar | name_kar       | sex_kar | sal_kar | created_at          |
++--------+----------------+---------+---------+---------------------+
+|      1 | Adny Barakbah  | pria    | 2500000 | 2019-11-21 09:35:07 |
+|      2 | Nadia Ningtias | wanita  | 2500000 | 2019-11-21 09:38:42 |
+|      3 | Yuan Xheng     | pria    | 2500000 | 2019-11-21 09:38:42 |
++--------+----------------+---------+---------+---------------------+
+3 rows in set (0.000 sec)
+
+MariaDB [warehouse_rk]> select avg(sal_kar) from karyawan where sal_kar <(
+    -> select avg(sal_kar) from karyawan);
++--------------+
+| avg(sal_kar) |
++--------------+
+| 2500000.0000 |
++--------------+
+1 row in set (0.001 sec)
+
+MariaDB [warehouse_rk]> select * from karyawan;
++--------+----------------+---------+---------+---------------------+
+| id_kar | name_kar       | sex_kar | sal_kar | created_at          |
++--------+----------------+---------+---------+---------------------+
+|      1 | Faishal Zafran | pria    | 2500000 | 2019-11-21 09:35:07 |
+|      2 | Salma Fina     | wanita  | 2500000 | 2019-11-21 09:38:42 |
+|      3 | Sujiwo Tejo    | pria    | 8500000 | 2019-11-21 09:38:42 |
+|      4 | Bonita Bonek   | wanita  | 4000000 | 2019-11-21 09:51:24 |
++--------+----------------+---------+---------+---------------------+
+4 rows in set (0.000 sec)
+
+drop database
+drop table
+
+alter table karyawan
+add column
+alamat text;
+
+alter table karyawan
+drop column alamat;
+
+MariaDB [warehouse_rk]> alter table karyawan
+    -> modify column
+    -> sex_kar set ('pria','wanita')
+    -> after id_kar;
+Query OK, 0 rows affected (0.040 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [warehouse_rk]> select * from karyawan;
++--------+---------+----------------+---------+---------+---------------------+
+| id_kar | sex_kar | name_kar       | sal_kar | add_kar | created_at          |
++--------+---------+----------------+---------+---------+---------------------+
+|      1 | pria    | Faishal Zafran | 2500000 | NULL    | 2019-11-21 09:35:07 |
+|      2 | wanita  | Salma Fina     | 2500000 | NULL    | 2019-11-21 09:38:42 |
+|      3 | pria    | Sujiwo Tejo    | 8500000 | NULL    | 2019-11-21 09:38:42 |
+|      4 | wanita  | Bonita Bonek   | 4000000 | NULL    | 2019-11-21 09:51:24 |
++--------+---------+----------------+---------+---------+---------------------+
+4 rows in set (0.000 sec)
+
+MariaDB [warehouse_rk]> alter table karyawan
+    -> modify column
+    -> sex_kar set ('pria','wanita')
+    -> after id_kar;
+Query OK, 0 rows affected (0.040 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [warehouse_rk]> select * from karyawan;
++--------+---------+----------------+---------+---------+---------------------+
+| id_kar | sex_kar | name_kar       | sal_kar | add_kar | created_at          |
++--------+---------+----------------+---------+---------+---------------------+
+|      1 | pria    | Faishal Zafran | 2500000 | NULL    | 2019-11-21 09:35:07 |
+|      2 | wanita  | Salma Fina     | 2500000 | NULL    | 2019-11-21 09:38:42 |
+|      3 | pria    | Sujiwo Tejo    | 8500000 | NULL    | 2019-11-21 09:38:42 |
+|      4 | wanita  | Bonita Bonek   | 4000000 | NULL    | 2019-11-21 09:51:24 |
++--------+---------+----------------+---------+---------+---------------------+
+4 rows in set (0.000 sec)

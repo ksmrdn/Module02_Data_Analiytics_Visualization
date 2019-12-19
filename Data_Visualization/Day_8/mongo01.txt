@@ -1,0 +1,739 @@
+show dbs
+Menampilkan database
+
+use (namadbs)
+Memakai dan membikin, namun bila kosong belum tercatat di dbs
+
+Microsoft Windows [Version 10.0.18362.476]
+(c) 2019 Microsoft Corporation. All rights reserved.
+
+C:\Users\asus>D:
+
+D:\>cd D:\Program Files\MongoDB\Server\4.2\bin
+
+D:\Program Files\MongoDB\Server\4.2\bin>mongo
+MongoDB shell version v4.2.1
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("cf2fc498-82b3-43b8-9eb7-0880d5cee85f") }
+MongoDB server version: 4.2.1
+Welcome to the MongoDB shell.
+For interactive help, type "help".
+For more comprehensive documentation, see
+        http://docs.mongodb.org/
+Questions? Try the support group
+        http://groups.google.com/group/mongodb-user
+Server has startup warnings:
+2019-11-25T09:53:57.679+0700 I  CONTROL  [initandlisten]
+2019-11-25T09:53:57.679+0700 I  CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+2019-11-25T09:53:57.679+0700 I  CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+2019-11-25T09:53:57.680+0700 I  CONTROL  [initandlisten]
+---
+Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+and anyone you share the URL with. MongoDB may use this information to make product
+improvements and to suggest MongoDB products and deployment options to you.
+
+To enable free monitoring, run the following command: db.enableFreeMonitoring()
+To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+
+> db.enableFreeMonitoring()
+{
+        "state" : "enabled",
+        "message" : "To see your monitoring data, navigate to the unique URL below. Anyone you share the URL with will also be able to view this page. You can disable monitoring at any time by running db.disableFreeMonitoring().",
+        "url" : "https://cloud.mongodb.com/freemonitoring/cluster/M2GEBUNOZZGBKSM4HFX37K5Y6GBZ5QCW",
+        "userReminder" : "",
+        "ok" : 1
+}
+> ^C
+bye
+
+D:\Program Files\MongoDB\Server\4.2\bin>mongo
+MongoDB shell version v4.2.1
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("6663b223-f199-486d-9bae-79f874c43475") }
+MongoDB server version: 4.2.1
+Server has startup warnings:
+2019-11-25T09:53:57.679+0700 I  CONTROL  [initandlisten]
+2019-11-25T09:53:57.679+0700 I  CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+2019-11-25T09:53:57.679+0700 I  CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+2019-11-25T09:53:57.680+0700 I  CONTROL  [initandlisten]
+---
+Free Monitoring URL:
+https://cloud.mongodb.com/freemonitoring/cluster/M2GEBUNOZZGBKSM4HFX37K5Y6GBZ5QCW
+---
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+> db.disableFreeMonitoring()
+> use percobaan
+switched to db percobaan
+> db
+percobaan
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+> db.createCollection('pelapak');
+{ "ok" : 1 }
+> show dbs
+admin      0.000GB
+config     0.000GB
+local      0.000GB
+percobaan  0.000GB
+
+> show collections
+pelapak
+> db.pelapak.drop()
+true
+> show collections
+> db
+percobaan
+> db.dropDatabase()
+{ "dropped" : "percobaan", "ok" : 1 }
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+> use tokoonline
+switched to db tokoonline
+> db.createUser({
+... user: "ksmrdn",
+... pwd : "12345",
+... roles: ['dbAdmin','readWrite']
+... })
+Successfully added user: { "user" : "ksmrdn", "roles" : [ "dbAdmin", "readWrite" ] }
+
+> show users
+{
+        "_id" : "tokoonline.ksmrdn",
+        "userId" : UUID("e92bcdb2-5c46-411b-af1c-b8d35cdf3edf"),
+        "user" : "ksmrdn",
+        "db" : "tokoonline",
+        "roles" : [
+                {
+                        "role" : "dbAdmin",
+                        "db" : "tokoonline"
+                },
+                {
+                        "role" : "readWrite",
+                        "db" : "tokoonline"
+                }
+        ],
+        "mechanisms" : [
+                "SCRAM-SHA-1",
+                "SCRAM-SHA-256"
+        ]
+}
+> db.getUsers()
+[
+        {
+                "_id" : "tokoonline.ksmrdn",
+                "userId" : UUID("e92bcdb2-5c46-411b-af1c-b8d35cdf3edf"),
+                "user" : "ksmrdn",
+                "db" : "tokoonline",
+                "roles" : [
+                        {
+                                "role" : "dbAdmin",
+                                "db" : "tokoonline"
+                        },
+                        {
+                                "role" : "readWrite",
+                                "db" : "tokoonline"
+                        }
+                ],
+                "mechanisms" : [
+                        "SCRAM-SHA-1",
+                        "SCRAM-SHA-256"
+                ]
+        }
+]
+> db.getUsers({showCredentials: true})
+[
+        {
+                "_id" : "tokoonline.ksmrdn",
+                "userId" : UUID("e92bcdb2-5c46-411b-af1c-b8d35cdf3edf"),
+                "user" : "ksmrdn",
+                "db" : "tokoonline",
+                "credentials" : {
+                        "SCRAM-SHA-1" : {
+                                "iterationCount" : 10000,
+                                "salt" : "AdbrFMTK5Y9l3z0bngxhAg==",
+                                "storedKey" : "dRbtE7ni0itbPg8lmzGX8+0pgCA=",
+                                "serverKey" : "bCSbsn3DCijv2yL36CCo7A9gtjw="
+                        },
+                        "SCRAM-SHA-256" : {
+                                "iterationCount" : 15000,
+                                "salt" : "0bBxYy0p46ymnLBr/zgpMTAQzGXLxHgdv6SyFA==",
+                                "storedKey" : "hafNHJ+2FupEr44YfnfCLuSoQUcIQ4tCmCpChPkt9hE=",
+                                "serverKey" : "gdKFKgQjcWVZK2L4g7Ug6dGUrolnqQ9+JRNCfz+rMT0="
+                        }
+                },
+                "roles" : [
+                        {
+                                "role" : "dbAdmin",
+                                "db" : "tokoonline"
+                        },
+                        {
+                                "role" : "readWrite",
+                                "db" : "tokoonline"
+                        }
+                ],
+                "mechanisms" : [
+                        "SCRAM-SHA-1",
+                        "SCRAM-SHA-256"
+                ]
+        }
+]
+> db
+tokoonline
+> db.createCollection('Seller')
+{ "ok" : 1 }
+> show collections
+Seller
+> db.Seller.insert({nama: 'Rachmad', usia: 21})
+WriteResult({ "nInserted" : 1 })
+> db.seller.insert([
+... {nama: 'Beno', usia: 22},
+... {nama: 'Crisye', usia: 23}
+... ])
+BulkWriteResult({
+        "writeErrors" : [ ],
+        "writeConcernErrors" : [ ],
+        "nInserted" : 2,
+        "nUpserted" : 0,
+        "nMatched" : 0,
+        "nModified" : 0,
+        "nRemoved" : 0,
+        "upserted" : [ ]
+})
+> db.seller.find()
+{ "_id" : ObjectId("5ddb4f6f9073db7899e23368"), "nama" : "Beno", "usia" : 22 }
+{ "_id" : ObjectId("5ddb4f6f9073db7899e23369"), "nama" : "Crisye", "usia" : 23 }
+> db.seller.find()
+{ "_id" : ObjectId("5ddb4f6f9073db7899e23368"), "nama" : "Beno", "usia" : 22 }
+{ "_id" : ObjectId("5ddb4f6f9073db7899e23369"), "nama" : "Crisye", "usia" : 23 }
+> db.seller.insert({nama: 'Deni', usia: 20})
+WriteResult({ "nInserted" : 1 })
+> db.seller.find()
+{ "_id" : ObjectId("5ddb4f6f9073db7899e23368"), "nama" : "Beno", "usia" : 22 }
+{ "_id" : ObjectId("5ddb4f6f9073db7899e23369"), "nama" : "Crisye", "usia" : 23 }
+{ "_id" : ObjectId("5ddb504f9073db7899e2336a"), "nama" : "Deni", "usia" : 20 }
+> db.seller.insert(
+... {nama: 'Edward', kota:'Medan', pekerjaan:'Pengacara', usia:30})
+WriteResult({ "nInserted" : 1 })
+> db.seller.find().pretty()
+{
+        "_id" : ObjectId("5ddb4f6f9073db7899e23368"),
+        "nama" : "Beno",
+        "usia" : 22
+}
+{
+        "_id" : ObjectId("5ddb4f6f9073db7899e23369"),
+        "nama" : "Crisye",
+        "usia" : 23
+}
+{
+        "_id" : ObjectId("5ddb504f9073db7899e2336a"),
+        "nama" : "Deni",
+        "usia" : 20
+}
+{
+        "_id" : ObjectId("5ddb50a29073db7899e2336b"),
+        "nama" : "Edward",
+        "kota" : "Medan",
+        "pekerjaan" : "Pengacara",
+        "usia" : 30
+}
+> db.seller.remove({pekerjaan})
+2019-11-25T10:57:48.898+0700 E  QUERY    [js] uncaught exception: ReferenceError: pekerjaan is not defined :
+@(shell):1:19
+> db.seller.remove({pekerjaan: 'Pengacara'})
+WriteResult({ "nRemoved" : 1 })
+> db.seller.find().pretty()
+{
+        "_id" : ObjectId("5ddb4f6f9073db7899e23368"),
+        "nama" : "Beno",
+        "usia" : 22
+}
+{
+        "_id" : ObjectId("5ddb4f6f9073db7899e23369"),
+        "nama" : "Crisye",
+        "usia" : 23
+}
+{
+        "_id" : ObjectId("5ddb504f9073db7899e2336a"),
+        "nama" : "Deni",
+        "usia" : 20
+}
+> db.seller.update(
+... {nama: 'Deni', kota},
+... ;
+... );
+2019-11-25T11:01:17.880+0700 E  QUERY    [js] uncaught exception: SyntaxError: expected expression, got ';' :
+@(shell):3:0
+> db.seller.update( {nama: 'Deni'}, {nama: 'Dude', kota: 'Semarang'})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.seller.find().pretty()
+{
+        "_id" : ObjectId("5ddb4f6f9073db7899e23368"),
+        "nama" : "Beno",
+        "usia" : 22
+}
+{
+        "_id" : ObjectId("5ddb4f6f9073db7899e23369"),
+        "nama" : "Crisye",
+        "usia" : 23
+}
+{
+        "_id" : ObjectId("5ddb504f9073db7899e2336a"),
+        "nama" : "Dude",
+        "kota" : "Semarang"
+}
+> db.seller.update(
+... {nama: 'Dude'},
+... {$set: {kota: 'Surabaya'}});
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.seller.find().pretty()
+{
+        "_id" : ObjectId("5ddb4f6f9073db7899e23368"),
+        "nama" : "Beno",
+        "usia" : 22
+}
+{
+        "_id" : ObjectId("5ddb4f6f9073db7899e23369"),
+        "nama" : "Crisye",
+        "usia" : 23
+}
+{
+        "_id" : ObjectId("5ddb504f9073db7899e2336a"),
+        "nama" : "Dude",
+        "kota" : "Surabaya"
+}
+> db.seller.update( {nama: 'Dude'}, {$set: {pekerjaan: 'Barber'}});
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.seller.find().pretty()
+{
+        "_id" : ObjectId("5ddb4f6f9073db7899e23368"),
+        "nama" : "Beno",
+        "usia" : 22
+}
+{
+        "_id" : ObjectId("5ddb4f6f9073db7899e23369"),
+        "nama" : "Crisye",
+        "usia" : 23
+}
+{
+        "_id" : ObjectId("5ddb504f9073db7899e2336a"),
+        "nama" : "Dude",
+        "kota" : "Surabaya",
+        "pekerjaan" : "Barber"
+}
+> db.seller.updateMany( {}, {$set: {status: 'Menikah'}});
+{ "acknowledged" : true, "matchedCount" : 3, "modifiedCount" : 3 }
+> db.seller.find().pretty()
+{
+        "_id" : ObjectId("5ddb4f6f9073db7899e23368"),
+        "nama" : "Beno",
+        "usia" : 22,
+        "status" : "Menikah"
+}
+{
+        "_id" : ObjectId("5ddb4f6f9073db7899e23369"),
+        "nama" : "Crisye",
+        "usia" : 23,
+        "status" : "Menikah"
+}
+{
+        "_id" : ObjectId("5ddb504f9073db7899e2336a"),
+        "nama" : "Dude",
+        "kota" : "Surabaya",
+        "pekerjaan" : "Barber",
+        "status" : "Menikah"
+}
+
+> db.seller.updateMany(
+... {},
+... {$rename: {
+... 'nama' : 'jeneng'
+... }})
+{ "acknowledged" : true, "matchedCount" : 3, "modifiedCount" : 3 }
+> db.seller.find().pretty()
+{
+        "_id" : ObjectId("5ddb4f6f9073db7899e23368"),
+        "usia" : 22,
+        "status" : "Menikah",
+        "jeneng" : "Beno"
+}
+{
+        "_id" : ObjectId("5ddb4f6f9073db7899e23369"),
+        "usia" : 23,
+        "status" : "Menikah",
+        "jeneng" : "Crisye"
+}
+{
+        "_id" : ObjectId("5ddb504f9073db7899e2336a"),
+        "kota" : "Surabaya",
+        "pekerjaan" : "Barber",
+        "status" : "Menikah",
+        "jeneng" : "Dude"
+}
+
+> db.seller.find({_id : ObjectId("5ddb504f9073db7899e2336a")})
+{ "_id" : ObjectId("5ddb504f9073db7899e2336a"), "kota" : "Surabaya", "pekerjaan" : "Barber", "status" : "Menikah", "jeneng" : "Dude" }
+> db.seller.find(ObjectId("5ddb504f9073db7899e2336a"))
+{ "_id" : ObjectId("5ddb504f9073db7899e2336a"), "kota" : "Surabaya", "pekerjaan" : "Barber", "status" : "Menikah", "jeneng" : "Dude" }
+> db.seller.find(
+... {usia: {$gt: 22}})
+{ "_id" : ObjectId("5ddb4f6f9073db7899e23369"), "usia" : 23, "status" : "Menikah", "jeneng" : "Crisye" }
+> db.seller.find( {usia: {$gte: 22}})
+{ "_id" : ObjectId("5ddb4f6f9073db7899e23368"), "usia" : 22, "status" : "Menikah", "jeneng" : "Beno" }
+{ "_id" : ObjectId("5ddb4f6f9073db7899e23369"), "usia" : 23, "status" : "Menikah", "jeneng" : "Crisye" }
+
+> db.seller.insert({jeneng: 'Fino', alamat: { kota: 'Surabaya', prov: 'Jatim', kodepos: 60174, loc: [{lat: -324.5},{long: 44.1}]}})
+WriteResult({ "nInserted" : 1 })
+> db.seller.find({jeneng: 'Fino'}).pretty()
+{
+        "_id" : ObjectId("5ddb5d919073db7899e2336d"),
+        "jeneng" : "Fino",
+        "alamat" : {
+                "kota" : "Surabaya",
+                "prov" : "Jatim",
+                "kodepos" : 60174,
+                "loc" : [
+                        {
+                                "lat" : -324.5
+                        },
+                        {
+                                "long" : 44.1
+                        }
+                ]
+        }
+}
+
+> db.seller.insert({jeneng: Gugun})
+2019-11-25T11:51:38.241+0700 E  QUERY    [js] uncaught exception: ReferenceError: Gugun is not defined :
+@(shell):1:19
+> db.seller.find().sort({usia: 1})
+{ "_id" : ObjectId("5ddb504f9073db7899e2336a"), "kota" : "Surabaya", "pekerjaan" : "Barber", "status" : "Menikah", "jeneng" : "Dude" }
+{ "_id" : ObjectId("5ddb5d919073db7899e2336d"), "jeneng" : "Fino", "alamat" : { "kota" : "Surabaya", "prov" : "Jatim", "kodepos" : 60174, "loc" : [ { "lat" : -324.5 }, { "long" : 44.1 } ] } }
+{ "_id" : ObjectId("5ddb4f6f9073db7899e23368"), "usia" : 22, "status" : "Menikah", "jeneng" : "Beno" }
+{ "_id" : ObjectId("5ddb4f6f9073db7899e23369"), "usia" : 23, "status" : "Menikah", "jeneng" : "Crisye" }
+{ "_id" : ObjectId("5ddb5b5d9073db7899e2336c"), "jeneng" : "Edward", "kota" : "Medan", "pekerjaan" : "Pengacara", "usia" : 30, "status" : "Menikah" }
+> db.seller.find().sort({usia: -1})
+{ "_id" : ObjectId("5ddb5b5d9073db7899e2336c"), "jeneng" : "Edward", "kota" : "Medan", "pekerjaan" : "Pengacara", "usia" : 30, "status" : "Menikah" }
+{ "_id" : ObjectId("5ddb4f6f9073db7899e23369"), "usia" : 23, "status" : "Menikah", "jeneng" : "Crisye" }
+{ "_id" : ObjectId("5ddb4f6f9073db7899e23368"), "usia" : 22, "status" : "Menikah", "jeneng" : "Beno" }
+{ "_id" : ObjectId("5ddb504f9073db7899e2336a"), "kota" : "Surabaya", "pekerjaan" : "Barber", "status" : "Menikah", "jeneng" : "Dude" }
+{ "_id" : ObjectId("5ddb5d919073db7899e2336d"), "jeneng" : "Fino", "alamat" : { "kota" : "Surabaya", "prov" : "Jatim", "kodepos" : 60174, "loc" : [ { "lat" : -324.5 }, { "long" : 44.1 } ] } }
+> db.seller.find().pretty()
+{
+        "_id" : ObjectId("5ddb4f6f9073db7899e23368"),
+        "usia" : 22,
+        "status" : "Menikah",
+        "jeneng" : "Beno",
+        "kota" : "Kediri"
+}
+{
+        "_id" : ObjectId("5ddb4f6f9073db7899e23369"),
+        "usia" : 23,
+        "status" : "Menikah",
+        "jeneng" : "Crisye",
+        "kota" : "Bali"
+}
+{
+        "_id" : ObjectId("5ddb504f9073db7899e2336a"),
+        "kota" : "Surabaya",
+        "pekerjaan" : "Barber",
+        "status" : "Menikah",
+        "jeneng" : "Dude",
+        "usia" : 35
+}
+{
+        "_id" : ObjectId("5ddb5b5d9073db7899e2336c"),
+        "jeneng" : "Edward",
+        "kota" : "Medan",
+        "pekerjaan" : "Pengacara",
+        "usia" : 30,
+        "status" : "Menikah"
+}
+{
+        "_id" : ObjectId("5ddb5d919073db7899e2336d"),
+        "jeneng" : "Fino",
+        "alamat" : {
+                "kota" : "Surabaya",
+                "prov" : "Jatim",
+                "kodepos" : 60174,
+                "loc" : [
+                        {
+                                "lat" : -324.5
+                        },
+                        {
+                                "long" : 44.1
+                        }
+                ]
+        },
+        "usia" : 19,
+        "status" : "Belum Menikah",
+        "kota" : "Jakarta"
+}
+> db.seller.find().sort({usia: -1, name:1}).limit(3).pretty()
+{
+        "_id" : ObjectId("5ddb504f9073db7899e2336a"),
+        "kota" : "Surabaya",
+        "pekerjaan" : "Barber",
+        "status" : "Menikah",
+        "jeneng" : "Dude",
+        "usia" : 35
+}
+{
+        "_id" : ObjectId("5ddb5b5d9073db7899e2336c"),
+        "jeneng" : "Edward",
+        "kota" : "Medan",
+        "pekerjaan" : "Pengacara",
+        "usia" : 30,
+        "status" : "Menikah"
+}
+{
+        "_id" : ObjectId("5ddb4f6f9073db7899e23369"),
+        "usia" : 23,
+        "status" : "Menikah",
+        "jeneng" : "Crisye",
+        "kota" : "Bali"
+}
+D:\Program Files\MongoDB\Server\4.2\bin>mongoimport --db resto --collection resto --file restaurants.json --jsonArray
+2019-11-25T12:22:13.401+0700    connected to: mongodb://localhost/
+2019-11-25T12:22:13.715+0700    3772 document(s) imported successfully. 0 document(s) failed to import.
+
+D:\Program Files\MongoDB\Server\4.2\bin>mongo
+MongoDB shell version v4.2.1
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("3a4a96a3-314a-4869-b18f-c4038018b853") }
+MongoDB server version: 4.2.1
+Server has startup warnings:
+2019-11-25T09:53:57.679+0700 I  CONTROL  [initandlisten]
+2019-11-25T09:53:57.679+0700 I  CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+2019-11-25T09:53:57.679+0700 I  CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+2019-11-25T09:53:57.680+0700 I  CONTROL  [initandlisten]
+> db.resto.find().pretty()
+> db.restaurant.find().pretty()
+> show dbs
+admin       0.000GB
+config      0.000GB
+local       0.000GB
+resto       0.001GB
+tokoonline  0.000GB
+> use resto
+switched to db resto
+> db.resto.find().limit(5)pretty()
+2019-11-25T12:24:47.827+0700 E  QUERY    [js] uncaught exception: SyntaxError: unexpected token: identifier :
+@(shell):1:24
+> db.resto.find().limit(5).pretty()
+{
+        "_id" : ObjectId("5ddb65058f15f6246b34e874"),
+        "address" : {
+                "building" : "7715",
+                "coord" : [
+                        -73.9973325,
+                        40.61174889999999
+                ],
+                "street" : "18 Avenue",
+                "zipcode" : "11214"
+        },
+        "borough" : "Brooklyn",
+        "cuisine" : "American ",
+        "grades" : [
+                {
+                        "date" : ISODate("2014-04-16T00:00:00Z"),
+                        "grade" : "A",
+                        "score" : 5
+                },
+                {
+                        "date" : ISODate("2013-04-23T00:00:00Z"),
+                        "grade" : "A",
+                        "score" : 2
+                },
+                {
+                        "date" : ISODate("2012-04-24T00:00:00Z"),
+                        "grade" : "A",
+                        "score" : 5
+                },
+                {
+                        "date" : ISODate("2011-12-16T00:00:00Z"),
+                        "grade" : "A",
+                        "score" : 2
+                }
+        ],
+        "name" : "C & C Catering Service",
+        "restaurant_id" : "40357437"
+}
+{
+        "_id" : ObjectId("5ddb65058f15f6246b34e875"),
+        "address" : {
+                "building" : "1269",
+                "coord" : [
+                        -73.871194,
+                        40.6730975
+                ],
+                "street" : "Sutter Avenue",
+                "zipcode" : "11208"
+        },
+        "borough" : "Brooklyn",
+        "cuisine" : "Chinese",
+        "grades" : [
+                {
+                        "date" : ISODate("2014-09-16T00:00:00Z"),
+                        "grade" : "B",
+                        "score" : 21
+                },
+                {
+                        "date" : ISODate("2013-08-28T00:00:00Z"),
+                        "grade" : "A",
+                        "score" : 7
+                },
+                {
+                        "date" : ISODate("2013-04-02T00:00:00Z"),
+                        "grade" : "C",
+                        "score" : 56
+                },
+                {
+                        "date" : ISODate("2012-08-15T00:00:00Z"),
+                        "grade" : "B",
+                        "score" : 27
+                },
+                {
+                        "date" : ISODate("2012-03-28T00:00:00Z"),
+                        "grade" : "B",
+                        "score" : 27
+                }
+        ],
+        "name" : "May May Kitchen",
+        "restaurant_id" : "40358429"
+}
+{
+        "_id" : ObjectId("5ddb65058f15f6246b34e876"),
+        "address" : {
+                "building" : "1",
+                "coord" : [
+                        -73.96926909999999,
+                        40.7685235
+                ],
+                "street" : "East   66 Street",
+                "zipcode" : "10065"
+        },
+        "borough" : "Manhattan",
+        "cuisine" : "American ",
+        "grades" : [
+                {
+                        "date" : ISODate("2014-05-07T00:00:00Z"),
+                        "grade" : "A",
+                        "score" : 3
+                },
+                {
+                        "date" : ISODate("2013-05-03T00:00:00Z"),
+                        "grade" : "A",
+                        "score" : 4
+                },
+                {
+                        "date" : ISODate("2012-04-30T00:00:00Z"),
+                        "grade" : "A",
+                        "score" : 6
+                },
+                {
+                        "date" : ISODate("2011-12-27T00:00:00Z"),
+                        "grade" : "A",
+                        "score" : 0
+                }
+        ],
+        "name" : "1 East 66Th Street Kitchen",
+        "restaurant_id" : "40359480"
+}
+{
+        "_id" : ObjectId("5ddb65058f15f6246b34e877"),
+        "address" : {
+                "building" : "705",
+                "coord" : [
+                        -73.9653967,
+                        40.6064339
+                ],
+                "street" : "Kings Highway",
+                "zipcode" : "11223"
+        },
+        "borough" : "Brooklyn",
+        "cuisine" : "Jewish/Kosher",
+        "grades" : [
+                {
+                        "date" : ISODate("2014-11-10T00:00:00Z"),
+                        "grade" : "A",
+                        "score" : 11
+                },
+                {
+                        "date" : ISODate("2013-10-10T00:00:00Z"),
+                        "grade" : "A",
+                        "score" : 13
+                },
+                {
+                        "date" : ISODate("2012-10-04T00:00:00Z"),
+                        "grade" : "A",
+                        "score" : 7
+                },
+                {
+                        "date" : ISODate("2012-05-21T00:00:00Z"),
+                        "grade" : "A",
+                        "score" : 9
+                },
+                {
+                        "date" : ISODate("2011-12-30T00:00:00Z"),
+                        "grade" : "B",
+                        "score" : 19
+                }
+        ],
+        "name" : "Seuda Foods",
+        "restaurant_id" : "40360045"
+}
+{
+        "_id" : ObjectId("5ddb65058f15f6246b34e878"),
+        "address" : {
+                "building" : "203",
+                "coord" : [
+                        -73.97822040000001,
+                        40.6435254
+                ],
+                "street" : "Church Avenue",
+                "zipcode" : "11218"
+        },
+        "borough" : "Brooklyn",
+        "cuisine" : "Ice Cream, Gelato, Yogurt, Ices",
+        "grades" : [
+                {
+                        "date" : ISODate("2014-02-10T00:00:00Z"),
+                        "grade" : "A",
+                        "score" : 2
+                },
+                {
+                        "date" : ISODate("2013-01-02T00:00:00Z"),
+                        "grade" : "A",
+                        "score" : 13
+                },
+                {
+                        "date" : ISODate("2012-01-09T00:00:00Z"),
+                        "grade" : "A",
+                        "score" : 3
+                },
+                {
+                        "date" : ISODate("2011-11-07T00:00:00Z"),
+                        "grade" : "P",
+                        "score" : 12
+                },
+                {
+                        "date" : ISODate("2011-07-21T00:00:00Z"),
+                        "grade" : "A",
+                        "score" : 13
+                }
+        ],
+        "name" : "Carvel Ice Cream",
+        "restaurant_id" : "40360076"
+}

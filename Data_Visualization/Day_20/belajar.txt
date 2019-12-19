@@ -1,0 +1,12 @@
+1. API - requests
+   Kunci json, dict
+2. Web Scraping - BeautifulSoup
+3. SQL
+4. MongoDB - Konvensional
+5. Numpy
+6. Pandas mean median mode quartil 25 50 75
+	  distribusi
+          df join merge pivot
+7. Plotly
+8. Matplotlib
+9. Seaborn
